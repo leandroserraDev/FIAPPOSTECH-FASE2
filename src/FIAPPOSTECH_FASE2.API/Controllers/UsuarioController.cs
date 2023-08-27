@@ -1,5 +1,6 @@
 ﻿using FIAPPOSTECH_FASE2.DTO.AppServices;
 using FIAPPOSTECH_FASE2.DTO.Dtos.User;
+using FIAPPOSTECH_FASE2.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,31 +12,33 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
     [Authorize]
     public class UsuarioController : ControllerBase
     {
-        private readonly IAppServicoUsuario _appServicoUsuario;
-public UsuarioController(IAppServicoUsuario appServicoUsuario)
+        private readonly IServicoUsuario _servicoUsuario;
+
+        public UsuarioController(IServicoUsuario servicoUsuario)
         {
-            _appServicoUsuario = appServicoUsuario;
+            _servicoUsuario = servicoUsuario;
         }
 
+ 
         [HttpGet("id")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _appServicoUsuario.Get(obj => obj.Id.Equals(id));
+            var result = await _servicoUsuario.Get(obj => obj.Id.Equals(id));
             return Ok(result);  
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _appServicoUsuario.GetAll(obj => obj.Id > 0);
+            var result = await _servicoUsuario.GetAll(obj => obj.Id > 0);
 
             return Ok(result);
         }
-
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(UsuarioCadastroDTO usuarioCadastroDTO)
         {
-            var result = await _appServicoUsuario.Add(usuarioCadastroDTO.ToDomain());
+            var result = await _servicoUsuario.Add(usuarioCadastroDTO.ToDomain());
 
             if(result == null) return BadRequest();
 
@@ -45,7 +48,7 @@ public UsuarioController(IAppServicoUsuario appServicoUsuario)
         [HttpPut]
         public async Task<IActionResult>Update (UsuarioEdicaoDTO usuarioAtualizacaoDto)
         {
-            var result = await _appServicoUsuario.Update(usuarioAtualizacaoDto.ToDomain());
+            var result = await _servicoUsuario.Update(usuarioAtualizacaoDto.ToDomain());
 
             if(result == null) return BadRequest(); return Ok(result);
         }

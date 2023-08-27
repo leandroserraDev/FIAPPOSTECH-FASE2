@@ -3,9 +3,10 @@ using FIAPPOSTECH_FASE2.API.Config;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.ConfigureEntityFramework();
+builder.Services.ConfigureEntityFramework(builder);
 builder.Services.ConfigureSwagger(builder);
 builder.Services.ConfigureJWT(builder);
+builder.Services.DependencyInjection();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
