@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FIAPPOSTECH_FASE2.DOMAIN\FIAPPOSTECH_FASE2.DOMAIN.csproj" />
-    <ProjectReference Include="..\FIAPPOSTECH_FASE2.Services\FIAPPOSTECH_FASE2.Services.csproj" />
   </ItemGroup>
 
 </Project>

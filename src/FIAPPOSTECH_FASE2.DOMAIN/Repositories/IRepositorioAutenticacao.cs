@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FIAPPOSTECH_FASE2.DOMAIN.Repositories
 {
-    public interface IAutenticacaoRepositorio
+    public interface IRepositorioAutenticacao
     {
         Task<Usuario> Login(string email, string password);
         Task<Usuario> GetUserByEmail(string email);
