@@ -3,7 +3,7 @@ WORKDIR /App
 EXPOSE 80
 EXPOSE 443
 # Copy everything
-COPY . ./
+COPY . .
 # Restore as distinct layers
 RUN dotnet restore
 # Build and publish a release
