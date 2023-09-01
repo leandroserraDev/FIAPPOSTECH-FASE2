@@ -15,7 +15,7 @@ COPY ["src/FIAPPOSTECH_FASE2.Infra/FIAPPOSTECH_FASE2.Infra.csproj", "src/FIAPPOS
 RUN dotnet restore "src/FIAPPOSTECH_FASE2.API/FIAPPOSTECH_FASE2.API.csproj"
 COPY . .
 WORKDIR "/src/src/FIAPPOSTECH_FASE2.API"
-RUN dotnet build "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/build 
+RUN dotnet build "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
