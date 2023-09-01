@@ -8,12 +8,11 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . ./
-RUN dotnet restore "src/FIAPPOSTECH_FASE2.API/FIAPPOSTECH_FASE2.API.csproj"
-WORKDIR "/src/src/FIAPPOSTECH_FASE2.API"
-RUN dotnet build "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/build
+RUN dotnet restore 
+RUN dotnet build  -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
