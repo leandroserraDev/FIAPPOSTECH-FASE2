@@ -3,6 +3,7 @@ using System;
 using FIAPPOSTECH_FASE2.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FIAPPOSTECH_FASE2.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230827124032_AdicionandoColunaPasswordBD")]
+    partial class AdicionandoColunaPasswordBD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,14 +41,9 @@ namespace FIAPPOSTECH_FASE2.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AutorId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Noticia", (string)null);
                 });
@@ -67,11 +64,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<byte[]>("SaltHash")
-                        .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
@@ -90,16 +83,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FIAPPOSTECH_FASE2.DOMAIN.Entities.Usuario", null)
-                        .WithMany("Noticias")
-                        .HasForeignKey("UsuarioId");
-
                     b.Navigation("Autor");
-                });
-
-            modelBuilder.Entity("FIAPPOSTECH_FASE2.DOMAIN.Entities.Usuario", b =>
-                {
-                    b.Navigation("Noticias");
                 });
 #pragma warning restore 612, 618
         }

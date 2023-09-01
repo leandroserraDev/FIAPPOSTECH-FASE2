@@ -19,38 +19,55 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
             _servicoUsuario = servicoUsuario;
         }
 
- 
+
         [HttpGet("id")]
         public async Task<IActionResult> Get(int id)
         {
             var result = await _servicoUsuario.Get(obj => obj.Id.Equals(id));
-            return Ok(result);  
+            var usuario = new UsuarioDTO(result.Id, result.Nome, result.Email);
+            return Ok(usuario);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var listUsuario = new List<UsuarioDTO>();
             var result = await _servicoUsuario.GetAll(obj => obj.Id > 0);
 
-            return Ok(result);
+            if (result == null) return NotFound();
+            result.ToList().ForEach(us =>
+            {
+                var entity = new UsuarioDTO(us.Id, us.Nome, us.Email);
+                listUsuario.Add(entity);
+            });
+
+            return Ok(listUsuario);
         }
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Create(UsuarioCadastroDTO usuarioCadastroDTO)
         {
             var result = await _servicoUsuario.Add(usuarioCadastroDTO.ToDomain());
 
-            if(result == null) return BadRequest();
+            if (result == null) return BadRequest();
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult>Update (UsuarioEdicaoDTO usuarioAtualizacaoDto)
+        public async Task<IActionResult> Update(UsuarioEdicaoDTO usuarioAtualizacaoDto)
         {
             var result = await _servicoUsuario.Update(usuarioAtualizacaoDto.ToDomain());
 
-            if(result == null) return BadRequest(); return Ok(result);
+            if (result == null) return BadRequest(); return Ok(result);
+        }
+
+        [HttpPatch("{id}/trocar-senha")]
+        public async Task<IActionResult> TrocarSenha(int id, [FromBody] UsuarioTrocarSenhaDTO usuarioTrocarSenhaDTO)
+        {
+            var result = await _servicoUsuario.TrocarSenha(id, usuarioTrocarSenhaDTO.password);
+            if(!result) return BadRequest(new {mensagem= "senha não trocada"});
+
+            return Ok(result);
         }
 
     }

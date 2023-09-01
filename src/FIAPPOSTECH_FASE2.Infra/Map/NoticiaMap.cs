@@ -24,7 +24,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Map
              .IsRequired();
 
             builder.HasOne(nt => nt.Autor)
-                .WithMany()
+                .WithMany(obj => obj.Noticias)
                 .HasForeignKey(nt => nt.AutorId);
 
         }

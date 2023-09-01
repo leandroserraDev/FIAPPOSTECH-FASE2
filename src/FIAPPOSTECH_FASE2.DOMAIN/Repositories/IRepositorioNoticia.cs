@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace FIAPPOSTECH_FASE2.DOMAIN.Repositories
 {
-    public interface IRepositorioNotifica : IRepositorioGenerico<Noticia>
+    public interface IRepositorioNoticia : IRepositorioGenerico<Noticia>
     {
+        Task<IList<Noticia>> ObterPorAutor(int autorId);
+
     }
 }

@@ -22,6 +22,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Repositories
         public async Task<TEntity> Add(TEntity entity)
         {
             _dbContext.Add<TEntity>(entity);
+            await _dbContext.SaveChangesAsync();
             return entity;
         }
 
@@ -34,11 +35,12 @@ namespace FIAPPOSTECH_FASE2.Infra.Repositories
             }
 
             _dbContext.Remove<TEntity>(entity);
+            await _dbContext.SaveChangesAsync();
 
             return await Task.FromResult(true);
         }
 
-        public async Task<TEntity> Get(Func<TEntity, bool> func = null)
+        public virtual async Task<TEntity> Get(Func<TEntity, bool> func = null)
         {
             var result = _dbContext.Set<TEntity>()
                 .FirstOrDefault(func);
@@ -46,7 +48,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Repositories
             return await Task.FromResult(result);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll(Func<TEntity, bool> func = null)
+        public virtual async Task<IEnumerable<TEntity>> GetAll(Func<TEntity, bool> func = null)
         {
             var result = _dbContext.Set<TEntity>()
                 .Where(func)
@@ -60,6 +62,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Repositories
         {
             _dbContext.Set<TEntity>().Attach(entity);
             _dbContext.Entry<TEntity>( entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
 
             return await Task.FromResult(entity);
         }

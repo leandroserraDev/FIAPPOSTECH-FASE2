@@ -11,7 +11,7 @@ namespace FIAPPOSTECH_FASE2.DTO.Dtos.User
     {
         public Usuario ToDomain()
         {
-            return new Usuario(id, nome, sobrenome, email);
+            return new Usuario(id, nome, sobrenome, email,null, null);
         }
     }
 }

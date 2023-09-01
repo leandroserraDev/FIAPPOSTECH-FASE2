@@ -17,7 +17,7 @@ namespace FIAPPOSTECH_FASE2.Services.Services
             _repositorioGenerico = repositorioGenerico;
         }
 
-        public async Task<TEntity> Add(TEntity entity)
+        public virtual async Task<TEntity> Add(TEntity entity)
         {
             return await Task.FromResult(await _repositorioGenerico.Add(entity));
         }
@@ -27,12 +27,12 @@ namespace FIAPPOSTECH_FASE2.Services.Services
             return await Task.FromResult(await _repositorioGenerico.Delete(id));
         }
 
-        public async Task<TEntity> Get(Func<TEntity, bool> func = null)
+        public virtual async Task<TEntity> Get(Func<TEntity, bool> func = null)
         {
           return await Task.FromResult(await _repositorioGenerico.Get(func));
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll(Func<TEntity, bool> func = null)
+        public virtual async Task<IEnumerable<TEntity>> GetAll(Func<TEntity, bool> func = null)
         {
             return await Task.FromResult(await _repositorioGenerico.GetAll(func));
         }

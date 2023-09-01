@@ -9,5 +9,7 @@ namespace FIAPPOSTECH_FASE2.Services.Interface
 {
     public interface IServicoUsuario : IServicoGenerico<Usuario>
     {
+        Task<Usuario> Login(string email, string password);
+        Task<bool> TrocarSenha(int id, string password);
     }
 }

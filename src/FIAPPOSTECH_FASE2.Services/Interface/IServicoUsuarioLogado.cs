@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace FIAPPOSTECH_FASE2.Services.Interface
 {
-    public interface IServicoNoticia : IServicoGenerico<Noticia>
+    public interface IServicoUsuarioLogado
     {
-        Task<IList<Noticia>> ObterPorAutor(int id);
-
+        Task<Usuario> Get();
     }
 }

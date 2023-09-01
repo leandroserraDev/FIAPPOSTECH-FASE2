@@ -15,18 +15,36 @@ namespace FIAPPOSTECH_FASE2.Infra.Map
         {
             builder.ToTable("Usuario");
 
+            builder.HasIndex(us => us.Email )
+                .IsUnique();
+
             builder.Property(us =>
             us.Nome
             )
+                .HasColumnType("nvarchar(50)")
                 .IsRequired();
+
             builder.Property(us =>
            us.Sobrenome
            )
+                .HasColumnType("nvarchar(50)")
                .IsRequired();
             builder.Property(us =>
            us.Email
            )
+                .HasColumnType("nvarchar(50)")
                .IsRequired();
+
+            builder.Property(us => us.Password)
+                .HasColumnType("nvarchar(255)")
+                .IsRequired();
+
+
+            builder.HasMany(us => us.Noticias)
+                .WithOne(us => us.Autor)
+                .HasPrincipalKey(us => us.Id)
+                .HasForeignKey(us => us.AutorId)
+                .IsRequired();
         }
     }
 }

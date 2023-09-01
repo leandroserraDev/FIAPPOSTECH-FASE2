@@ -1,7 +1,9 @@
 ﻿using FIAPPOSTECH_FASE2.API.JWT;
 using FIAPPOSTECH_FASE2.DTO.Dtos.User;
+using FIAPPOSTECH_FASE2.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace FIAPPOSTECH_FASE2.API.Controllers
 {
@@ -11,17 +13,22 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
     {
 
         private readonly IConfiguration _configuration;
-
-        public AuthController(IConfiguration configuration)
+        private readonly IServicoUsuario _servicoUsuario;
+        public AuthController(IConfiguration configuration, IServicoUsuario servicoUsuario)
         {
             _configuration = configuration;
+            _servicoUsuario = servicoUsuario;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login([FromQuery] UsuarioLoginDTO usuarioLoginDTO) {
+        public async Task<IActionResult> Login([FromQuery] UsuarioLoginDTO usuarioLoginDTO)
+        {
 
-            var user = new UsuarioDTO(1, "leandro", "email@gmail.com");
-            var token =await  GerarJWTOKEN.GerarToken(user, _configuration);
+            var user = await _servicoUsuario.Login(usuarioLoginDTO.email, usuarioLoginDTO.password);
+            if (user == null) { return BadRequest(new { mensagem = "Usuário ou senha inválidos" }); }
+
+            var token = await GerarJWTOKEN.GerarToken(new(user.Id, user.Nome, user.Email), _configuration);
+
             return Ok(token);
         }
     }

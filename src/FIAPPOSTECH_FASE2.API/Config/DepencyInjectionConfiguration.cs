@@ -12,13 +12,16 @@ namespace FIAPPOSTECH_FASE2.API.Config
             #region repositorio
             services.AddScoped(typeof(IRepositorioGenerico<>), typeof(RepositorioGenerico<>));
             services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
-            services.AddScoped<IRepositorioNotifica, RepositorioNoticia>();
+            services.AddScoped<IRepositorioNoticia, RepositorioNoticia>();
             #endregion
 
             #region services
             services.AddScoped(typeof(IServicoGenerico<>), typeof(ServicoGenerico<>));
             services.AddScoped<IServicoUsuario, ServicoUsuario>();
             services.AddScoped<IServicoNoticia, ServicoNoticia>();
+            services.AddScoped<IServicoUsuarioLogado, ServicoUsuarioLogado>();
+            services.AddHttpContextAccessor();
+
             #endregion
         }
     }

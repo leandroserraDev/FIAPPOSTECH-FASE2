@@ -9,14 +9,11 @@ namespace FIAPPOSTECH_FASE2.DOMAIN.Entities
     public class Noticia
     {
         public Noticia(string titulo, 
-            string conteudo, 
-            int autorId, 
-            DateTime dataPublicacao)
+            string conteudo)
         {
             Titulo = titulo;
             Conteudo = conteudo;
-            DataPublicacao = dataPublicacao;
-            AutorId = autorId;
+            DataPublicacao = DateTime.Now;
         }
 
         public Noticia(int id, 
@@ -44,5 +41,13 @@ namespace FIAPPOSTECH_FASE2.DOMAIN.Entities
         public DateTime DataPublicacao { get; private set; }
         public int AutorId { get; private set; }
         public virtual Usuario Autor { get; private set; }
+
+        public void AdicionarAutor(int autorId)
+        {
+            if(AutorId is 0)
+            {
+                AutorId = autorId;
+            }
+        }
     }
 }
