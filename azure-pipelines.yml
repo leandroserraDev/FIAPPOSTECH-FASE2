@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: '069068ab-795b-4fea-958e-60b0308b1baf'
   imageRepository: 'leandroserradevfiappostechfase'
   containerRegistry: 'rcfiappos.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/src/FIAPPOSTECH_FASE2.API/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
