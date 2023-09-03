@@ -31,16 +31,6 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
 
             return Ok(token);
         }
-        [HttpPost]
-        public async Task<IActionResult> L1ogin([FromBody] UsuarioLoginDTO usuarioLoginDTO) 
-        {
-
-            var user = await _servicoUsuario.Login(usuarioLoginDTO.email, usuarioLoginDTO.password);
-            if (user == null) { return BadRequest(new { mensagem = "Usuário ou senha inválidos" }); }
-
-            var token = await GerarJWTOKEN.GerarToken(new(user.Id, user.Nome, user.Email), _configuration); 
-
-            return Ok(token);
-        }
+      
     }
 }
