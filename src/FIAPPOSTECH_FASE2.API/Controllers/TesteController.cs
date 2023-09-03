@@ -15,6 +15,6 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
         public ActionResult Post()  
         {
             return Ok();
-        }
+        } 
     }
 }
