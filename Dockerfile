@@ -20,9 +20,6 @@ RUN dotnet build "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "FIAPPOSTECH_FASE2.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM base AS final
-WORKDIR /migration
-COPY --from=migration /app/migration .
 
 FROM base AS final
 WORKDIR /app
