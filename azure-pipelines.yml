@@ -14,7 +14,7 @@ variables:
   imageRepository: 'leandroserradevfiappostechfase'
   containerRegistry: 'rcfiappos.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: 53
+  tag: '$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
