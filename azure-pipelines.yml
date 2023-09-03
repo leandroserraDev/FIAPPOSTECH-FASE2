@@ -11,7 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'ff45a92b-dbd8-43cd-9308-cfd88b473e91'
-  imageRepository: 'leandroserradevfiappostechfase'
+  imageRepository: 'image-fiapposfaseapi'
   containerRegistry: 'rcfiappos.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: 53
