@@ -5,7 +5,11 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class TesteController : ControllerBase
     {
+        [HttpGet]
+        public ActionResult Get() {
+            return Ok();
+        }
     }
 }
