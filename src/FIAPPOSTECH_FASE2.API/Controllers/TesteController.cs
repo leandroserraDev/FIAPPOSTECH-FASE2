@@ -12,7 +12,7 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
             return Ok();
         }
         [HttpPost]
-        public ActionResult Post() 
+        public ActionResult Post()  
         {
             return Ok();
         }
