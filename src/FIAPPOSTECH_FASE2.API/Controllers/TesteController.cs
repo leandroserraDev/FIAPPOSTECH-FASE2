@@ -9,7 +9,7 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
     {
         [HttpGet]
         public ActionResult Get() {
-            return Ok();  
+            return Ok();
         }
     }
 }
