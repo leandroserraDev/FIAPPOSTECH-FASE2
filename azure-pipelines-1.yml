@@ -1,0 +1,85 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet Restore'
+  inputs:
+    restoreSolution: '$(solution)'
+    
+- task: PublishSymbols@2
+  displayName: 'Publish Symbols'
+  inputs:
+    SearchPattern: '**/bin/**/*.pdb'
+    SymbolServerType: 'FileShare'
+    CompressSymbols: false
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'artifacts'
+    publishLocation: 'Container'
+- task: DownloadBuildArtifacts@0
+  displayName: 'Build Artifacts'
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: '$(artifactName)'
+    downloadPath: '$(System.ArtifactsDirectory)'
+- task: DotNetCoreCLI@2
+  displayName: 'Install EF tool'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'install --global dotnet-ef'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Generate SQL Script'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: 'migrations script --idempotent --project $(Build.SourcesDirectory)\Data.csproj --output $(System.ArtifactsDirectory)/script.sql'
+ 
+ 
+- task: SqlAzureDacpacDeployment@1
+  displayName: 'Update Database'
+  inputs:
+    azureSubscription: '<Service Connection Identifier>'
+    AuthenticationType: 'connectionString'
+    ConnectionString: '<Connection String>'
+    deployType: 'SqlTask'
+    SqlFile: '$(System.ArtifactsDirectory)/script.sql'
+ 
+
+ 
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
