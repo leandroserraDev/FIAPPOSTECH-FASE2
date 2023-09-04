@@ -18,7 +18,7 @@ steps:
 - task: efcore-migration-script-generator-task@1
   inputs:
     projectpath: 'src\FIAPPOSTECH_FASE2.Infra'
-    databasecontexts: 'FIAPPOSTECH-FASE2\src\FIAPPOSTECH_FASE2.Infra'
+    databasecontexts: 'ApplicationDbContext'
     targetfolder: '$(build.artifactstagingdirectory)/migrations'
     installdependencies: true
     eftoolversion: '6.0.7'
