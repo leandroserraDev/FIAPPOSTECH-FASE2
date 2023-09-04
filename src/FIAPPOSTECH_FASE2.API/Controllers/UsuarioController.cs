@@ -44,7 +44,6 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
             return Ok(listUsuario);
         }
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Create(UsuarioCadastroDTO usuarioCadastroDTO)
         {
             var result = await _servicoUsuario.Add(usuarioCadastroDTO.ToDomain());
