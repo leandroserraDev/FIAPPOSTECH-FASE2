@@ -71,9 +71,9 @@ steps:
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Update Database'
   inputs:
-    azureSubscription: '<Service Connection Identifier>'
+    azureSubscription: '$(azureSubscription)'
     AuthenticationType: 'connectionString'
-    ConnectionString: '<Connection String>'
+    ConnectionString: '$(connectionString)'
     deployType: 'SqlTask'
     SqlFile: '$(System.ArtifactsDirectory)/script.sql'
  
