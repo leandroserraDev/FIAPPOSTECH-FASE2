@@ -34,25 +34,7 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
     
-- task: PublishSymbols@2
-  displayName: 'Publish Symbols'
-  inputs:
-    SearchPattern: '**/bin/**/*.pdb'
-    SymbolServerType: 'FileShare'
-    CompressSymbols: false
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'artifacts'
-    publishLocation: 'Container'
-- task: DownloadBuildArtifacts@0
-  displayName: 'Build Artifacts'
-  inputs:
-    buildType: 'current'
-    downloadType: 'single'
-    artifactName: '$(artifactName)'
-    downloadPath: '$(System.ArtifactsDirectory)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Install EF tool'
   inputs:
