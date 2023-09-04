@@ -11,7 +11,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Context
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions)
-            :base(dbContextOptions)
+            :base(dbContextOptions) 
         {
             
         }
