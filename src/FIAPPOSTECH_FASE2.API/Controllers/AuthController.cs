@@ -32,11 +32,6 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
             return Ok(token);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Logout()
-        {
-            return Ok();
-        }
       
     }
 }
