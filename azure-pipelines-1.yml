@@ -32,4 +32,4 @@ steps:
 - script: |
     cd src/FIAPPOSTECH_FASE2.Infra
     dotnet ef migrations add IntegrationTests
-    dotnet ef database update
+    dotnet ef --startup-project src/FIAPPOSTECH_FASE2.API database update 
