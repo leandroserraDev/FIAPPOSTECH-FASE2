@@ -23,9 +23,13 @@ namespace FIAPPOSTECH_FASE2.Infra.Map
              .HasColumnType("text")
              .IsRequired();
 
+            builder.Property(nt => nt.AutorId)
+                .IsRequired();
+
             builder.HasOne(nt => nt.Autor)
                 .WithMany(obj => obj.Noticias)
-                .HasForeignKey(nt => nt.AutorId);
+                .HasForeignKey(nt => nt.AutorId)
+                .IsRequired();
 
         }
     }
