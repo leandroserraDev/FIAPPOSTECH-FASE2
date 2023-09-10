@@ -15,20 +15,19 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-   
-   - script: |
+- script: |
         echo '*** SDKs do .NET intalados ***'
         dotnet --list-sdks
-      displayName: Exibir versoes instaladas do .NET SDK
-    - task: UseDotNet@2
-      inputs:
+        displayName: Exibir versoes instaladas do .NET SDK
+        - task: UseDotNet@2
+        inputs:
         packageType: 'sdk'
         version: '7.0.400'
         displayName: Instalar SDK do .NET 7.0.400
-    - script: |
+- script: |
         echo '*** Versão assumida como default para o .NET ***'
         dotnet --version
         echo '*** Instalar EF Core Tools ***'
         dotnet tool install --global dotnet-ef
         dotnet ef
-      displayName: Instalar EF Core Tools
+        displayName: Instalar EF Core Tools
