@@ -30,6 +30,6 @@ steps:
     dotnet ef
 
 - script: |
-    cd src\FIAPPOSTECH_FASE2.Infra
+    cd src/FIAPPOSTECH_FASE2.Infra
     dotnet ef migrations add IntegrationTests
     dotnet ef database update
