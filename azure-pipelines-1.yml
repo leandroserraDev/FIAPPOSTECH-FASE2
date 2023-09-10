@@ -28,3 +28,8 @@ steps:
     echo '*** Instalar EF Core Tools ***'
     dotnet tool install --global dotnet-ef
     dotnet ef
+
+- script: |
+    cd $(Path_Project)
+    dotnet ef migrations add IntegrationTests
+    dotnet ef database update
