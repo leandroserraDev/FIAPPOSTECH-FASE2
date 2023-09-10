@@ -18,7 +18,6 @@ steps:
 - script: |
         echo '*** SDKs do .NET intalados ***'
         dotnet --list-sdks
-         displayName: Exibir versoes instaladas do .NET SDK
          - task: UseDotNet@2
         inputs:
          packageType: 'sdk'
