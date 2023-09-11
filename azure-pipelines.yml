@@ -5,9 +5,10 @@
 
 resources:
   pipelines:
-  - pipeline: API-FIAPPOS-ENTITY-FRAMEWORK-CORE_UPDATE_DATABASE1
-    source: API-FIAPPOS-ENTITY-FRAMEWORK-CORE_UPDATE_DATABASE1
-    trigger: none
+  - pipeline: previous-pipeline-trigger   # Name of the pipeline resource
+    source: API-FIAPPOS-ENTITY-FRAMEWORK-CORE_UPDATE_DATABASE1 # Name of the pipeline referenced by the pipeline resource
+    project: API-FIAPPOS-ENTITY-FRAMEWORK-CORE_UPDATE_DATABASE1 # Required only if the source pipeline is in another project
+    trigger: true # enable the trigger
 
 variables:
   # Container registry service connection established during pipeline creation
