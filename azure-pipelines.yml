@@ -6,7 +6,9 @@ trigger:
 - none
 
 resources:
-- repo: self
+  pipelines:
+  - pipeline: PipelineENTITY-CI
+    source: Farbrikam-CI
 
 variables:
   # Container registry service connection established during pipeline creation
