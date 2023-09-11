@@ -2,12 +2,7 @@
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-
-resources:
-  pipelines:
-  - pipeline: previous-pipeline-trigger   # Name of the pipeline resource
-    source: API-FIAPPOS-ENTITY-FRAMEWORK-CORE_UPDATE_DATABASE1 # Name of the pipeline referenced by the pipeline resource
-    trigger: none # enable the trigger
+trigger: none # enable the trigger
 
 variables:
   # Container registry service connection established during pipeline creation
