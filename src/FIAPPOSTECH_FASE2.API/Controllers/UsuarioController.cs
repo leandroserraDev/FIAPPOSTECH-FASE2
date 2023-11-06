@@ -20,7 +20,7 @@ namespace FIAPPOSTECH_FASE2.API.Controllers
         }
 
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var result = await _servicoUsuario.Get(obj => obj.Id.Equals(id));
