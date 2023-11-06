@@ -23,9 +23,6 @@ steps:
    packageType: 'sdk'
    version: '6.0.402'
 
-- script: |
-    cd scr/FIAPPOSTECH-FASE2.API.Tests
-    dotnet test --logger "console;verbosity=detailed"
    
 - script: |
     echo '*** Versão assumida como default para o .NET ***'
@@ -39,3 +36,12 @@ steps:
     dotnet ef migrations add IntegrationTests
     dotnet ef --startup-project ../FIAPPOSTECH_FASE2.API database update 
 
+
+- script: |
+    cd scr/FIAPPOSTECH-FASE2.API.Tests
+    dotnet test --logger "console;verbosity=detailed"
+
+
+- script: |
+    cd scr/FIAPPOSTECH-FASE2.Domain.Test
+    dotnet test --logger "console;verbosity=detailed"
