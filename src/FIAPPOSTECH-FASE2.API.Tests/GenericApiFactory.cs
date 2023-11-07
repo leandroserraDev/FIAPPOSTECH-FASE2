@@ -1,10 +1,12 @@
 ﻿using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
+using FIAPPOSTECH_FASE2.DOMAIN.Entities;
 using FIAPPOSTECH_FASE2.Infra.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +50,22 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
             var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
+
+                var usuario = new Usuario("Administrador", "Administrador Geral", "administrador@gmail.com", "12345678");
+
+                usuario.GerarSenha();
+
+                dbContext.Database.ExecuteSqlRaw(
+               $"INSERT INTO Usuario(Id, Nome, Sobrenome, Email,Password, SaltHash) VALUES({0}, {1}, {2}, {3}, {4}, {5})",
+               new object[]
+                   {
+                   1 ,
+                   usuario.Nome.ToString(),
+                   usuario.Sobrenome.ToString(), 
+                   usuario.Email.ToString(), 
+                   usuario.Password.ToString(), 
+                   usuario.SaltHash.ToString()
+                   });
             });
 
            

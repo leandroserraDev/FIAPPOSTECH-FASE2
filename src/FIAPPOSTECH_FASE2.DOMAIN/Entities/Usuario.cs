@@ -54,14 +54,14 @@ namespace FIAPPOSTECH_FASE2.DOMAIN.Entities
         }
 
 
-        private void GerarSenha(string password)
+        public void GerarSenha()
         {
             var rngCsp = RandomNumberGenerator.Create();
 
             byte[] salt = new byte[16];
             rngCsp.GetBytes(salt);
 
-            var senha = password;
+            var senha = Password;
 
             var pbkdf2 = new Rfc2898DeriveBytes(senha, salt, 1000);
 
