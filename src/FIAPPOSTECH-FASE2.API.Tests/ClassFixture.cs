@@ -12,6 +12,8 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
         protected readonly WebApplicationFactory<Program> _factory;
 
+
+
         public ClassFixture(WebApplicationFactory<Program> factory)
         {
             _factory = factory;

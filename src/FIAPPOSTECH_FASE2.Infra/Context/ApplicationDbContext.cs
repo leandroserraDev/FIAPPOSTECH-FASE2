@@ -24,6 +24,7 @@ namespace FIAPPOSTECH_FASE2.Infra.Context
         {
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+
         }
 
     }
