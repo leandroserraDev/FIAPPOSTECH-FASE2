@@ -43,6 +43,7 @@ steps:
     cd src/FIAPPOSTECH-FASE2.API.Tests
     dotnet add package Testcontainers.MsSql --version 3.5.0
     dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.0
+    dotnet restore
 
 
 - script: |
