@@ -16,28 +16,45 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         
         protected readonly IContainer _mySqlContainer = new ContainerBuilder()
             .WithImage("mysql:8.1.0")
-        .WithExposedPort(3307)
-            .WithPortBinding(3307, 3307)
+        .WithExposedPort(3306)
+            .WithPortBinding(3306, 3306)
             .WithEnvironment("MYSQL_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_ROOT_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_DATABASE", "fiappos")
             .WithEnvironment("MYSQL_USER", "sa")
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3307))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))
             .Build();
 
-        public Task InitializeAsync() =>
-          _mySqlContainer.StartAsync();
+        public Task InitializeAsync() { 
+        if(_mySqlContainer.State != TestcontainersStates.Running
+                &&
+                _mySqlContainer.State != TestcontainersStates.Created
+                &&
+                _mySqlContainer.State != TestcontainersStates.Paused
 
-       
+
+                )
+            {
+               return _mySqlContainer.StartAsync();
+
+            }
+
+            return null;
+        }
+        public new async Task DisposeAsync()
+        {
+
+            await StopAsync();
+
+
+        }
+
         public Task  StopAsync()
         {
-           return _mySqlContainer.StopAsync();
+           return _mySqlContainer.DisposeAsync().AsTask();
         }
 
-        public Task DisposeAsync()
-        {
-            return StopAsync();
-        }
+
         protected override async void ConfigureWebHost(IWebHostBuilder builder)
         {
 
@@ -57,7 +74,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
                 services.AddDbContext<ApplicationDbContext>(options =>
 
-            options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3307;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
+            options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3306;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
                 );
 
             var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
@@ -91,6 +108,6 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
         }
 
-      
+     
     }
 }
