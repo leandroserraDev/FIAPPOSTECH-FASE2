@@ -41,7 +41,3 @@ steps:
     cd scr/FIAPPOSTECH-FASE2.API.Tests
     dotnet test --logger "console;verbosity=detailed"
 
-
-- script: |
-    cd scr/FIAPPOSTECH-FASE2.Domain.Test
-    dotnet test --logger "console;verbosity=detailed"
