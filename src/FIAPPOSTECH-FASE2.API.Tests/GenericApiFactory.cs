@@ -16,13 +16,13 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         
         protected readonly IContainer _mySqlContainer = new ContainerBuilder()
             .WithImage("mysql:8.1.0")
-        .WithExposedPort(4406)
-            .WithPortBinding(3306, 3306)
+        .WithExposedPort(3307)
+            .WithPortBinding(3307, 3307)
             .WithEnvironment("MYSQL_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_ROOT_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_DATABASE", "fiappos")
             .WithEnvironment("MYSQL_USER", "sa")
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3307))
             .Build();
 
         public Task InitializeAsync() =>
@@ -57,7 +57,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
                 services.AddDbContext<ApplicationDbContext>(options =>
 
-            options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3306;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
+            options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3307;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
                 );
 
             var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
