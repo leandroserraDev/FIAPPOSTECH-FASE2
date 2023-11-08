@@ -30,13 +30,6 @@ steps:
 
 
 - script: |
-    echo '***Definindo o Projeto de inicialização***'
-    cd src/FIAPPOSTECH_FASE2.Infra
-    dotnet ef migrations add IntegrationTests
-    dotnet ef --startup-project ../FIAPPOSTECH_FASE2.API database update 
-
-
-- script: |
     echo '***Rodando os testes de integração***'
     cd scr/FIAPPOSTECH-FASE2.API.Tests
     dotnet test --logger "console;verbosity=detailed"
