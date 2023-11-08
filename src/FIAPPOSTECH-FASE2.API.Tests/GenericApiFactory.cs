@@ -19,8 +19,11 @@ namespace FIAPPOSTECH_FASE2.API.Tests
     {
         
         private readonly IContainer _mySqlContainer = new ContainerBuilder()
-            .WithImage("mysql:latest")
-            .WithEnvironment("MSSQL_SA_PASSWORD", "1233321321")
+            .WithImage("mysql:8.0")
+            .WithEnvironment("MYSQL_PASSWORD", "12345678")
+            .WithEnvironment("MYSQL_ROOT_PASSWORD", "12345678")
+            .WithEnvironment("MYSQL_DATABASE", "fiappos")
+            .WithEnvironment("MYSQL_USER", "root")
             .WithPortBinding(5432, 5432)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
             .Build();
@@ -30,22 +33,23 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         {
           
 
-            builder.ConfigureServices(services =>
+            builder.ConfigureServices(async services =>
             {
             var dbContextOptionsDescriptor = services.SingleOrDefault(d =>
             d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
             var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ApplicationDbContext));
 
-            services.Remove(dbContextDescriptor);
-            services.Remove(dbContextOptionsDescriptor);
+            //services.Remove(dbContextDescriptor);
+            //services.Remove(dbContextOptionsDescriptor);
              
                 
                 var serverVersion = new MySqlServerVersion(new Version(8, 1, 0));
 
+                await _mySqlContainer.StartAsync();
                 services.AddDbContext<ApplicationDbContext>(options =>
 
-            options.UseMySql("Server=localhost;Port=3306;Database=FIAPPOSTDATABASE;Uid=root;Pwd=FIAPPOS2023;", serverVersion)
+            options.UseMySql($"Server={_mySqlContainer.Hostname};Port={5432};Database=fiappos;Uid=root;Pwd=12345678;", serverVersion)
                 );
 
             var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
@@ -73,6 +77,11 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         }
 
         public async Task InitializeAsync()
+        {
+            await _mySqlContainer.StartAsync();
+        }
+
+        public async Task StopAsync()
         {
             await _mySqlContainer.StartAsync();
         }
