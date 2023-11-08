@@ -11,17 +11,20 @@ using System.Threading.Tasks;
 
 namespace FIAPPOSTECH_FASE2.API.Tests
 {
-    public class TesteUsuarioController : ClassFixture
+    public class TesteUsuarioController : IClassFixture<GenericApiFactory>
     {
-        public TesteUsuarioController(WebApplicationFactory<Program> factory) : base(factory)
+        private readonly GenericApiFactory _genericApiFactory;
+
+        public TesteUsuarioController(GenericApiFactory genericApiFactory)
         {
+            _genericApiFactory = genericApiFactory;
         }
 
         [Fact]
         public async Task RETURN_A_STATUS_CODE_UNAUTHORIZED()
         {
 
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
             var response = await client.GetAsync("/api/Usuario");
 
@@ -32,7 +35,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_GET_ALL()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
 
             var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
@@ -48,7 +51,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_GET()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
 
             var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
@@ -66,7 +69,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_CREATE()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
             //Criando o objeto de usuario
             var usuario = new UsuarioCadastroDTO("Usuario teste", "Teste", $"teste{Guid.NewGuid().ToString().Substring(1, 5)}@gmail.com","12345678");

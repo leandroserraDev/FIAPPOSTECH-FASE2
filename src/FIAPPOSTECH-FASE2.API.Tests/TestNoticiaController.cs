@@ -12,19 +12,20 @@ using System.Threading.Tasks;
 
 namespace FIAPPOSTECH_FASE2.API.Tests
 {
-    public class TestNoticiaController : ClassFixture
+    public class TestNoticiaController : IClassFixture<GenericApiFactory>
     {
-        public TestNoticiaController(WebApplicationFactory<Program> factory) : base(factory)
+      private readonly GenericApiFactory _genericApiFactory;
+
+        public TestNoticiaController(GenericApiFactory genericApiFactory)
         {
+            _genericApiFactory = genericApiFactory;
         }
-
-
 
         [Fact]
         public async Task RETURN_A_STATUS_CODE_UNAUTHORIZED()
         {
 
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
             var response = await client.GetAsync("/api/Noticia");
 
@@ -35,7 +36,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_GET_ALL_NEWS()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
 
             var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
@@ -51,7 +52,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_GET_NEWS()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
 
             var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
@@ -67,7 +68,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_GET_NEWS_BY_AUTHOR()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
 
 
