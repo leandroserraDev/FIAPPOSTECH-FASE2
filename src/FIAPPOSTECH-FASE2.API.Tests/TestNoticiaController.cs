@@ -21,6 +21,8 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             _genericApiFactory = genericApiFactory;
         }
 
+
+
         [Fact]
         public async Task RETURN_A_STATUS_CODE_UNAUTHORIZED()
         {
@@ -39,7 +41,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             var client = _genericApiFactory.CreateClient();
 
 
-            var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
+            var response = await client.GetAsync("/api/Auth?email=administrador@gmail.com&password=12345678");
             var bearer = await response.Content.ReadAsStringAsync();
 
             client.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
@@ -55,7 +57,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             var client = _genericApiFactory.CreateClient();
 
 
-            var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
+            var response = await client.GetAsync("/api/Auth?email=administrador@gmail.com&password=12345678");
             var bearer = await response.Content.ReadAsStringAsync();
 
             client.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
@@ -72,7 +74,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
 
 
-            var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
+            var response = await client.GetAsync("/api/Auth?email=administrador@gmail.com&password=12345678");
             var bearer = await response.Content.ReadAsStringAsync();
 
             client.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
@@ -94,7 +96,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
             // obter dados de acesso bearer token
 
-            var response = await client.GetAsync("/api/Auth?email=administrador%40gmail.com&password=12345678");
+            var response = await client.GetAsync("/api/Auth?email=administrador@gmail.com&password=12345678");
             var bearer = await response.Content.ReadAsStringAsync();
 
             client.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
@@ -106,5 +108,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             Assert.Equal((int)HttpStatusCode.OK, (int)response.StatusCode);
 
         }
+
+        
     }
 }

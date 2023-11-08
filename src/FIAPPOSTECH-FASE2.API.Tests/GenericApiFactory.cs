@@ -7,31 +7,40 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xunit;
 
 namespace FIAPPOSTECH_FASE2.API.Tests
 {
-    public class GenericApiFactory : WebApplicationFactory<Program>
+    public class GenericApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         
-        private readonly IContainer _mySqlContainer = new ContainerBuilder()
-            .WithImage("mysql:8.0")
-            .WithEnvironment("MYSQL_PASSWORD", "12345678")
-            .WithEnvironment("MYSQL_ROOT_PASSWORD", "12345678")
+        protected readonly IContainer _mySqlContainer = new ContainerBuilder()
+            .WithImage("mysql:8.1.0")
+        .WithExposedPort(4406)
+            .WithPortBinding(3306, 3306)
+            .WithEnvironment("MYSQL_PASSWORD", "MarcaDagua1234")
+            .WithEnvironment("MYSQL_ROOT_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_DATABASE", "fiappos")
-            .WithEnvironment("MYSQL_USER", "root")
-            .WithPortBinding(5434, 5434)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5432))
+            .WithEnvironment("MYSQL_USER", "sa")
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))
             .Build();
 
+        public Task InitializeAsync() =>
+          _mySqlContainer.StartAsync();
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+       
+        public Task  StopAsync()
         {
-          
+           return _mySqlContainer.StopAsync();
+        }
+
+        public Task DisposeAsync()
+        {
+            return StopAsync();
+        }
+        protected override async void ConfigureWebHost(IWebHostBuilder builder)
+        {
+
 
             builder.ConfigureServices(async services =>
             {
@@ -40,16 +49,15 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
             var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ApplicationDbContext));
 
-            //services.Remove(dbContextDescriptor);
-            //services.Remove(dbContextOptionsDescriptor);
-             
-                
+                services.Remove(dbContextDescriptor);
+                services.Remove(dbContextOptionsDescriptor);
+
+
                 var serverVersion = new MySqlServerVersion(new Version(8, 1, 0));
 
-                await _mySqlContainer.StartAsync();
                 services.AddDbContext<ApplicationDbContext>(options =>
 
-            options.UseMySql($"Server={_mySqlContainer.Hostname};Port={5434};Database=fiappos;Uid=root;Pwd=12345678;", serverVersion)
+            options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3306;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
                 );
 
             var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
@@ -58,33 +66,31 @@ namespace FIAPPOSTECH_FASE2.API.Tests
                 var usuario = new Usuario("Administrador", "Administrador Geral", "administrador@gmail.com", "12345678");
 
                 usuario.GerarSenha();
-
-                dbContext.Database.ExecuteSqlRaw(
-               $"INSERT INTO Usuario(Id, Nome, Sobrenome, Email,Password, SaltHash) VALUES({0}, {1}, {2}, {3}, {4}, {5})",
-               new object[]
+                var sd = new object[]
                    {
                    1 ,
                    usuario.Nome.ToString(),
-                   usuario.Sobrenome.ToString(), 
-                   usuario.Email.ToString(), 
-                   usuario.Password.ToString(), 
+                   usuario.Sobrenome.ToString(),
+                   usuario.Email.ToString(),
+                   usuario.Password.ToString(),
                    usuario.SaltHash.ToString()
-                   });
+                   };
+            dbContext.Add(usuario);
+            dbContext.SaveChanges();
+             //   dbContext.Database.ExecuteSqlRaw(
+             // $@"INSERT INTO Usuario(Id, Nome, Sobrenome, Email,Password, SaltHash) VALUES({0}, {1}, {2}, {3}, {4}, {5})",
+             //1,
+             //usuario.Nome,
+             //usuario.Sobrenome,
+             //usuario.Email,
+             //usuario.Password,
+             //usuario.SaltHash
+             //  );
             });
 
-           
 
         }
 
-        public async Task InitializeAsync()
-        {
-            await _mySqlContainer.StartAsync();
-        }
-
-        public async Task StopAsync()
-        {
-            await _mySqlContainer.StartAsync();
-        }
-
+      
     }
 }
