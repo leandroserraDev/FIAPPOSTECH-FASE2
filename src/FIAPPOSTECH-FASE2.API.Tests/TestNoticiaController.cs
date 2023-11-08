@@ -87,7 +87,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
         [Fact]
         public async Task RETURN_A_STATUS_CODE_OK_CREATE_NEWS()
         {
-            var client = _factory.CreateClient();
+            var client = _genericApiFactory.CreateClient();
 
             //Criando o objeto de noticia
             var noticiaPost = new NoticiaCadastroDTO("Noticia teste", "Testando o cadastro da notícia teste");
