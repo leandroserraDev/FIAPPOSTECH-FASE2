@@ -41,7 +41,7 @@ steps:
 
 - script: |
     cd src/FIAPPOSTECH-FASE2.API.Tests
-    dotnet add package TestContainers.Container.Database.MySql --version 1.5.4
+    dotnet add package Testcontainers.MsSql --version 3.5.0
 
 
 - script: |
