@@ -31,10 +31,17 @@ steps:
     dotnet tool install --global dotnet-ef
     dotnet ef
 
+
 - script: |
     cd src/FIAPPOSTECH_FASE2.Infra
     dotnet ef migrations add IntegrationTests
     dotnet ef --startup-project ../FIAPPOSTECH_FASE2.API database update 
+
+
+
+- script: |
+    cd src/FIAPPOSTECH-FASE2.API.Tests
+    dotnet add package TestContainers.Container.Database.MySql --version 3.5.0
 
 
 - script: |
