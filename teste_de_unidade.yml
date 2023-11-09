@@ -30,7 +30,7 @@ steps:
 
 
 - script: |
-    echo '***Rodando os testes de integração***'
+    echo '***Rodando os testes de unidade***'
     cd scr/FIAPPOSTECH-FASE2.API.Domain.Test
     dotnet test --logger "console;verbosity=detailed"
 
