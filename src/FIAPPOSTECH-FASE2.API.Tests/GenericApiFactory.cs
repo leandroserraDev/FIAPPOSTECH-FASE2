@@ -13,10 +13,10 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 {
     public class GenericApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        
+
         protected readonly IContainer _mySqlContainer = new ContainerBuilder()
             .WithImage("mysql:8.1.0")
-        .WithExposedPort(3306)
+            .WithExposedPort(3306)
             .WithPortBinding(3306, 3306)
             .WithEnvironment("MYSQL_PASSWORD", "MarcaDagua1234")
             .WithEnvironment("MYSQL_ROOT_PASSWORD", "MarcaDagua1234")
@@ -25,17 +25,18 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306))
             .Build();
 
-        public Task InitializeAsync() { 
-        if(_mySqlContainer.State != TestcontainersStates.Running
-                &&
-                _mySqlContainer.State != TestcontainersStates.Created
-                &&
-                _mySqlContainer.State != TestcontainersStates.Paused
+        public Task InitializeAsync()
+        {
+            if (_mySqlContainer.State != TestcontainersStates.Running
+                    &&
+                    _mySqlContainer.State != TestcontainersStates.Created
+                    &&
+                    _mySqlContainer.State != TestcontainersStates.Paused
 
 
-                )
+                    )
             {
-               return _mySqlContainer.StartAsync();
+                return _mySqlContainer.StartAsync();
 
             }
 
@@ -49,9 +50,9 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
         }
 
-        public Task  StopAsync()
+        public Task StopAsync()
         {
-           return _mySqlContainer.DisposeAsync().AsTask();
+            return _mySqlContainer.DisposeAsync().AsTask();
         }
 
 
@@ -61,13 +62,13 @@ namespace FIAPPOSTECH_FASE2.API.Tests
 
             builder.ConfigureServices(async services =>
             {
-            var dbContextOptionsDescriptor = services.SingleOrDefault(d =>
-            d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+                var dbContextOptionsDescriptor = services.SingleOrDefault(d =>
+                d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
-            var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ApplicationDbContext));
+                var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ApplicationDbContext));
 
                 services.Remove(dbContextDescriptor);
-                services.Remove(dbContextOptionsDescriptor); 
+                services.Remove(dbContextOptionsDescriptor);
 
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 1, 0));
@@ -77,37 +78,19 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             options.UseMySql($"Server={_mySqlContainer.Hostname};Port=3306;Database=fiappos;Uid=sa;Pwd=MarcaDagua1234;", serverVersion)
                 );
 
-            var dbContext=  services.BuildServiceProvider().GetService<ApplicationDbContext>();
+                var dbContext = services.BuildServiceProvider().GetService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
 
                 var usuario = new Usuario("Administrador", "Administrador Geral", "administrador@gmail.com", "12345678");
 
                 usuario.GerarSenha();
-                var sd = new object[]
-                   {
-                   1 ,
-                   usuario.Nome.ToString(),
-                   usuario.Sobrenome.ToString(),
-                   usuario.Email.ToString(),
-                   usuario.Password.ToString(),
-                   usuario.SaltHash.ToString()
-                   };
-            dbContext.Add(usuario);
-            dbContext.SaveChanges();
-             //   dbContext.Database.ExecuteSqlRaw(
-             // $@"INSERT INTO Usuario(Id, Nome, Sobrenome, Email,Password, SaltHash) VALUES({0}, {1}, {2}, {3}, {4}, {5})",
-             //1,
-             //usuario.Nome,
-             //usuario.Sobrenome,
-             //usuario.Email,
-             //usuario.Password,
-             //usuario.SaltHash
-             //  );
+                dbContext.Add(usuario);
+                dbContext.SaveChanges();
             });
 
 
         }
 
-     
+
     }
 }
