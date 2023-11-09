@@ -50,7 +50,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             client.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
             response = await client.GetAsync("/api/Noticia");
 
-            Assert.Equal((int)HttpStatusCode.OK, (int)response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, (int)response.StatusCode); 
 
         }
 
