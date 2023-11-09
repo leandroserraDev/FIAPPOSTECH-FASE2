@@ -2,6 +2,7 @@ using FIAPPOSTECH_FASE2.API.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApplicationInsightsTelemetry();
 // Add services to the container.
 builder.Services.ConfigureEntityFramework(builder);
 builder.Services.ConfigureSwagger(builder);
