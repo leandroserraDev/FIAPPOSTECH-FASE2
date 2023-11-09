@@ -67,7 +67,7 @@ namespace FIAPPOSTECH_FASE2.API.Tests
             var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ApplicationDbContext));
 
                 services.Remove(dbContextDescriptor);
-                services.Remove(dbContextOptionsDescriptor);
+                services.Remove(dbContextOptionsDescriptor); 
 
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 1, 0));
